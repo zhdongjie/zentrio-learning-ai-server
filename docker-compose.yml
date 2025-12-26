@@ -1,0 +1,19 @@
+services:
+  zentrio-pg:
+    image: pgvector/pgvector:pg16
+    container_name: zentrio-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: zentrio_ai_db
+      POSTGRES_USER: zentrio_admin
+      POSTGRES_PASSWORD: zentrio_password_2025
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/data/pgsql:/var/lib/postgresql/data
+      - ./docker/init/pgsql/init_schema.sql:/docker-entrypoint-initdb.d/init_schema.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U zentrio_admin -d zentrio_ai_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
