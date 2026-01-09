@@ -62,6 +62,18 @@ class Settings(BaseSettings):
             f"{self.POSTGRES_DB}"
         )
 
+    # === OCR Configuration ===
+    # 是否启用 OCR 功能
+    OCR_ENABLED: bool = True
+    # OCR 线程数 (根据 CPU 核数调整，0 为自动)
+    OCR_NUM_THREADS: int = 0
+    # 限制图像长边，太大的图缩放以提升速度，默认 960
+    OCR_DET_LIMIT_SIDE_LEN: int = 960
+    # 识别置信度阈值
+    OCR_TEXT_SCORE_THRESH: float = 0.5
+    # OCR 默认语言
+    OCR_LANG: str = "ch"
+
     # ===============================
     # Settings 行为配置
     # ===============================

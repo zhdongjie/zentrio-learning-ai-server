@@ -3,19 +3,19 @@ from fastapi import APIRouter
 # 引入拆分后的 Request 和 Response
 from app.schemas.diagnosis import DiagnosisRequest, DiagnosisResponse
 from app.schemas.result import Result
-from app.services import rag_service
+from app.services import diagnosis_service
 
 router = APIRouter()
 
 
 @router.post("/analyze", response_model=Result[DiagnosisResponse])
 async def analyze(request: DiagnosisRequest):
-
-    diagnosis_data = await rag_service.generate_diagnosis(
+    diagnosis_data = await diagnosis_service.diagnose(
         request.kp_code,
         request.question,
         request.student_answer
     )
+    print(diagnosis_data)
 
     # 根据对错封装 Result
     if diagnosis_data.is_correct:

@@ -6,7 +6,7 @@ from fastapi import FastAPI, Request, Security
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.api.v1 import diagnosis, knowledge
+from app.api.v1 import diagnosis, knowledge, ocr
 from app.core.config import settings
 from app.core.database import init_db
 from app.core.security import verify_internal_token
@@ -78,6 +78,12 @@ app.include_router(
     diagnosis.router,
     prefix=f"{settings.API_PREFIX}/diagnosis",
     tags=["AI Diagnosis"],
+    dependencies=[Security(verify_internal_token)]
+)
+app.include_router(
+    ocr.router,
+    prefix=f"{settings.API_PREFIX}/ocr",
+    tags=["OCR"],
     dependencies=[Security(verify_internal_token)]
 )
 
